@@ -15,6 +15,10 @@ angular.module('BookmarksApp', ['ngRoute'])
        });
 }])
 .controller('BookmarksController', function($scope, $log, $location) {
+    $scope.db = {
+		counter: 0,
+		bookmarks: [],
+	};
     $scope.open_editor = function() {
         $log.debug('open_editor'); 
 		$scope.editor = {};
@@ -27,6 +31,9 @@ angular.module('BookmarksApp', ['ngRoute'])
 	$scope.save = function() {
 		$log.debug('save');
 		$log.debug($scope.editor.url);
+		$scope.db.counter++;
+		$scope.db.bookmarks.push({url: $scope.editor.url, id: $scope.db.counter});
+		$log.debug($scope.db);
         $location.path('/');
 	};
 });

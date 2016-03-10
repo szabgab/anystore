@@ -15,6 +15,9 @@
 
 <script type="text/ng-template" id="main.html">
       <button ng-click="open_editor()">Add</button>
+      <div ng-repeat="bm in db.bookmarks track by bm.id">
+        <div>{{bm.id}} {{bm.url}}</div>
+      </div>
 </script>
 
  
