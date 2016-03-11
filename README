@@ -1,0 +1,9 @@
+
+* Allow deleting
+* Allow editing
+* Save date when it was added
+* Add a comment to the URL
+* typeahead search of the url
+* full-text search of the urls and comments
+
+* Remote store of the whole JSON dump.

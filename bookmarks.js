@@ -15,12 +15,18 @@ angular.module('BookmarksApp', ['ngRoute'])
        });
 }])
 .controller('BookmarksController', function($scope, $log, $location) {
-    $scope.db = {
-		counter: 0,
-		bookmarks: [],
-	};
+    var data = localStorage.getItem('bookmarks');
+    if (data === null) {
+        $scope.db = {
+    		counter: 0,
+    		bookmarks: [],
+    	};
+    } else {
+        $scope.db = JSON.parse(data);
+    }
+
     $scope.open_editor = function() {
-        $log.debug('open_editor'); 
+        $log.debug('open_editor');
 		$scope.editor = {};
         $location.path('/editor');
 	};
@@ -34,7 +40,7 @@ angular.module('BookmarksApp', ['ngRoute'])
 		$scope.db.counter++;
 		$scope.db.bookmarks.push({url: $scope.editor.url, id: $scope.db.counter});
 		$log.debug($scope.db);
+        localStorage.setItem("bookmarks", JSON.stringify($scope.db));
         $location.path('/');
 	};
 });
- 
