@@ -9,18 +9,18 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
   <script src="bookmarks.js"></script>
- 
+
 </head>
 <body ng-app="BookmarksApp" ng-controller="BookmarksController">
 
 <script type="text/ng-template" id="main.html">
       <button ng-click="open_editor()">Add</button>
       <div ng-repeat="bm in db.bookmarks track by bm.id">
-        <div>{{bm.id}} {{bm.url}}</div>
+        <div>{{bm.id}} {{bm.url}} <button ng-click="delete($index)">del</button></div>
       </div>
 </script>
 
- 
+
 <script type="text/ng-template" id="editor.html">
    <input ng-model="editor.url" placeholder="URL">
    <button ng-click="save()">Save</button>
@@ -33,18 +33,18 @@
       <div class="col-md-10"></div>
       <div class="col-md-1"></div>
   </div>
- 
+
   <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-7">
         <h1>Bookmarks</h1>
 
    <div ng-view></div>
-        
+
       </div>
       <div class="col-md-3"></div>
   </div>
 </div>
- 
+
 </body>
 </html>

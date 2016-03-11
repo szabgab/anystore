@@ -31,6 +31,11 @@ angular.module('BookmarksApp', ['ngRoute'])
         $location.path('/editor');
 	};
 
+    $scope.delete = function(idx) {
+        $scope.db.bookmarks.splice(idx, 1);
+        save_in_db();
+    }
+
 	$scope.cancel = function() {
         $location.path('/');
 	};
@@ -40,7 +45,10 @@ angular.module('BookmarksApp', ['ngRoute'])
 		$scope.db.counter++;
 		$scope.db.bookmarks.push({url: $scope.editor.url, id: $scope.db.counter});
 		$log.debug($scope.db);
-        localStorage.setItem("bookmarks", JSON.stringify($scope.db));
+        save_in_db();
         $location.path('/');
 	};
+    var save_in_db = function() {
+        localStorage.setItem("bookmarks", JSON.stringify($scope.db));
+    }
 });
