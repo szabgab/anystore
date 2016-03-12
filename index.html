@@ -16,7 +16,7 @@
 <script type="text/ng-template" id="main.html">
       <button ng-click="open_editor()">Add</button>
       <div ng-repeat="bm in db.bookmarks track by bm.id">
-        <div>{{bm.id}} {{bm.url}} <button ng-click="open_editor($index)">edit</button> <button ng-click="delete($index)">del</button></div>
+        <div>{{bm.id}} {{bm.create_date}} - {{bm.url}} <button ng-click="open_editor($index)">edit</button> <button ng-click="delete($index)">del</button></div>
       </div>
 </script>
 

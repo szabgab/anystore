@@ -54,6 +54,7 @@ angular.module('BookmarksApp', ['ngRoute'])
         } else {
             $scope.db.counter++;
             $scope.editor.id = $scope.db.counter;
+            $scope.editor.create_date = new Date();
     		$scope.db.bookmarks.push(angular.copy($scope.editor));
         }
 		$log.debug($scope.db);

@@ -1,8 +1,12 @@
 
-* Save date when it was added
+* Add a title
+* When adding a link fetch the title of the page and offer it as a title
 * Add a comment to the URL
 * typeahead search of the url
 * full-text search of the urls and comments
 * Allow user to add tags
+* Make URLs real links
+* When adding or editing a URL check if they are valid
+* Offer the user adding the URL to strip the parts after the #  and/or after the ?, especially if those are tracking values
 
 * Remote store of the whole JSON dump.
