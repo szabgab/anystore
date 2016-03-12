@@ -25,9 +25,14 @@ angular.module('BookmarksApp', ['ngRoute'])
         $scope.db = JSON.parse(data);
     }
 
-    $scope.open_editor = function() {
-        $log.debug('open_editor');
-		$scope.editor = {};
+    $scope.open_editor = function(idx) {
+        $log.debug('open_editor for', idx);
+        if (idx === null || idx === undefined) {
+            $scope.editor = {};
+        } else {
+            $scope.editor = angular.copy($scope.db.bookmarks[idx]);
+            $scope.editor.idx = idx;
+        }
         $location.path('/editor');
 	};
 
@@ -41,9 +46,16 @@ angular.module('BookmarksApp', ['ngRoute'])
 	};
 	$scope.save = function() {
 		$log.debug('save');
-		$log.debug($scope.editor.url);
-		$scope.db.counter++;
-		$scope.db.bookmarks.push({url: $scope.editor.url, id: $scope.db.counter});
+		$log.debug($scope.editor);
+        if ($scope.editor.hasOwnProperty('idx') ) {
+            var idx = $scope.editor.idx;
+            delete $scope.editor.idx;
+            $scope.db.bookmarks[idx] = angular.copy($scope.editor);
+        } else {
+            $scope.db.counter++;
+            $scope.editor.id = $scope.db.counter;
+    		$scope.db.bookmarks.push(angular.copy($scope.editor));
+        }
 		$log.debug($scope.db);
         save_in_db();
         $location.path('/');
