@@ -6,9 +6,14 @@ angular.module('BookmarksApp', ['ngRoute'])
    $routeProvider.
        when('/', {
    	       templateUrl: 'main.html',
+           controller: 'MainController'
        }).
        when('/editor', {
            templateUrl: 'editor.html',
+       }).
+       when('/tag/:tag', {
+           templateUrl: 'tag.html',
+           controller: 'TagController'
        }).
        otherwise({
            redirectTo: '/'
@@ -24,6 +29,14 @@ angular.module('BookmarksApp', ['ngRoute'])
     } else {
         $scope.db = JSON.parse(data);
     }
+
+    $scope.goto = function(url) {
+        $location.path(url);
+    };
+
+    $scope.show_tag = function(tag) {
+        $location.path('/tag/' + tag);
+    };
 
     $scope.open_editor = function(idx) {
         $log.debug('open_editor for', idx);
@@ -52,6 +65,7 @@ angular.module('BookmarksApp', ['ngRoute'])
             var idx = $scope.editor.idx;
             delete $scope.editor.idx;
             $scope.editor.tags = $scope.editor.tags_string.split(/\s*,\s*/);
+            delete $scope.editor.tags_string;
             $scope.db.bookmarks[idx] = angular.copy($scope.editor);
         } else {
             $scope.db.counter++;
@@ -75,4 +89,18 @@ angular.module('BookmarksApp', ['ngRoute'])
     var save_in_db = function() {
         localStorage.setItem("bookmarks", JSON.stringify($scope.db));
     }
-});
+})
+.controller('MainController', function($scope) {
+    $scope.bookmarks = $scope.db.bookmarks;
+})
+.controller('TagController', function($scope, $log, $routeParams, $filter) {
+    $log.log('Tag', $routeParams);
+    $scope.bookmarks = $filter('filter')($scope.db.bookmarks, function(value, idx, arr) {
+        var filtered_tags = (value.tags || []).filter(function(tag) {
+            return tag === $routeParams.tag;
+        });
+        return filtered_tags.length > 0;
+    });
+    $scope.params = $routeParams;
+})
+;
