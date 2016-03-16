@@ -18,7 +18,7 @@
       <div>
            {{bm.id}} {{bm.create_date}} - <a href="{{bm.url}}" target="_blank">{{bm.title || bm.url}}</a> <button ng-click="open_editor($index)">edit</button> <button ng-click="delete($index)">del</button>
            <span ng-repeat="t in bm.tags" track by $index><button class="btn btn-primary btn-xs" ng-click="show_tag(t)">{{t}}</button> </span>
-           <a href="http://twitter.com/home?status={{bm.title}} {{bm.url}}"><img src="img/twitter32px.png" target="_blank"></a>
+           <a href="http://twitter.com/home?status={{bm.title}} {{bm.url}}" target="_blank"><img src="img/twitter32px.png"></a>
       </div>
     </div>
 </script>
