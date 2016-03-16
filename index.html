@@ -17,7 +17,8 @@
       <button class="btn btn-lg" ng-click="open_editor()">Add</button>
       <button class="btn btn-lg" ng-click="export_data()">Export</button>
       <div ng-repeat="bm in db.bookmarks track by bm.id">
-        <div>{{bm.id}} {{bm.create_date}} - <a href="{{bm.url}}">{{bm.title || bm.url}}</a> <button ng-click="open_editor($index)">edit</button> <button ng-click="delete($index)">del</button></div>
+        <div>{{bm.id}} {{bm.create_date}} - <a href="{{bm.url}}" target="_blank">{{bm.title || bm.url}}</a> <button ng-click="open_editor($index)">edit</button> <button ng-click="delete($index)">del</button></div>
+           <span ng-repeat="t in bm.tags" track by $index>{{t}}</span>
       </div>
 </script>
 
@@ -25,6 +26,7 @@
 <script type="text/ng-template" id="editor.html">
    <input class="form-control" ng-model="editor.url" placeholder="URL">
    <input class="form-control" ng-model="editor.title" placeholder="Title">
+   <input class="form-control" ng-model="editor.tags_string" placeholder="Comma separated tags">
    <button class="btn btn-success" ng-click="save()">Save</button>
    <button class="btn" ng-click="cancel()">Cancel</button>
 </script>

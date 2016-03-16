@@ -1,12 +1,21 @@
 
-* Add a title
 * When adding a link fetch the title of the page and offer it as a title
 * Add a comment to the URL
 * typeahead search of the url
 * full-text search of the urls and comments
 * Allow user to add tags
-* Make URLs real links
-* When adding or editing a URL check if they are valid
+* When adding or editing a URL check if they are valid (if the page exists)
 * Offer the user adding the URL to strip the parts after the #  and/or after the ?, especially if those are tracking values
 
 * Remote store of the whole JSON dump.
+
+
+
+Description
+=============
+
+* Allow the user to bookmark URLs, add a title, add some comments, add tags.
+* Make it easy to share the URLs we have saved via Twitter and other social networks.
+* By default use the local storage in the browser.
+* Allow the user to export all the data and import it as well.
+* Provide a back-end solution to have persistent data across browsers.
