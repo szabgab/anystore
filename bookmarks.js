@@ -61,6 +61,15 @@ angular.module('BookmarksApp', ['ngRoute'])
         save_in_db();
         $location.path('/');
 	};
+    $scope.export_data = function() {
+        $log.debug('export_data');
+        var data = JSON.stringify($scope.db);
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURI(data);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'bookmarks.json';
+        hiddenElement.click();
+    };
     var save_in_db = function() {
         localStorage.setItem("bookmarks", JSON.stringify($scope.db));
     }
