@@ -61,11 +61,12 @@ angular.module('BookmarksApp', ['ngRoute'])
 	$scope.save = function() {
 		$log.debug('save');
 		$log.debug($scope.editor);
+
+        $scope.editor.tags = $scope.editor.tags_string.split(/\s*,\s*/);
+        delete $scope.editor.tags_string;
         if ($scope.editor.hasOwnProperty('idx') ) {
             var idx = $scope.editor.idx;
             delete $scope.editor.idx;
-            $scope.editor.tags = $scope.editor.tags_string.split(/\s*,\s*/);
-            delete $scope.editor.tags_string;
             $scope.db.bookmarks[idx] = angular.copy($scope.editor);
         } else {
             $scope.db.counter++;
