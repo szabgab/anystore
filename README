@@ -1,14 +1,14 @@
 
 * When adding a link fetch the title of the page and offer it as a title
+* Check for duplicate URLs
 * Add a comment to the URL
 * typeahead search of the url
 * full-text search of the urls and comments
-* Allow user to add tags
+* Make the tag adding show existing tags as we type ahead and turn them into buttons as they are finished/selected.
 * When adding or editing a URL check if they are valid (if the page exists)
 * Offer the user adding the URL to strip the parts after the #  and/or after the ?, especially if those are tracking values
-
 * Remote store of the whole JSON dump.
-
+* Configuration options weather we want to see Twitter (and other) social links or not.
 
 
 Description

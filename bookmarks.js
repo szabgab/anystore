@@ -19,7 +19,7 @@ angular.module('BookmarksApp', ['ngRoute'])
            redirectTo: '/'
        });
 }])
-.controller('BookmarksController', function($scope, $log, $location) {
+.controller('BookmarksController', ['$scope', '$log', '$location', function($scope, $log, $location) {
     var data = localStorage.getItem('bookmarks');
     if (data === null) {
         $scope.db = {
@@ -90,12 +90,12 @@ angular.module('BookmarksApp', ['ngRoute'])
     var save_in_db = function() {
         localStorage.setItem("bookmarks", JSON.stringify($scope.db));
     }
-})
-.controller('MainController', function($scope, $rootScope) {
+}])
+.controller('MainController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $rootScope.title = "Bookmarks"
     $scope.bookmarks = $scope.db.bookmarks;
-})
-.controller('TagController', function($scope, $rootScope, $log, $routeParams, $filter) {
+}])
+.controller('TagController', ['$scope', '$rootScope', '$log', '$routeParams', '$filter', function($scope, $rootScope, $log, $routeParams, $filter) {
     $log.log('Tag', $routeParams);
     $rootScope.title = $routeParams.tag;
     $scope.bookmarks = $filter('filter')($scope.db.bookmarks, function(value, idx, arr) {
@@ -105,5 +105,5 @@ angular.module('BookmarksApp', ['ngRoute'])
         return filtered_tags.length > 0;
     });
     $scope.params = $routeParams;
-})
+}])
 ;
