@@ -91,11 +91,13 @@ angular.module('BookmarksApp', ['ngRoute'])
         localStorage.setItem("bookmarks", JSON.stringify($scope.db));
     }
 })
-.controller('MainController', function($scope) {
+.controller('MainController', function($scope, $rootScope) {
+    $rootScope.title = "Bookmarks"
     $scope.bookmarks = $scope.db.bookmarks;
 })
-.controller('TagController', function($scope, $log, $routeParams, $filter) {
+.controller('TagController', function($scope, $rootScope, $log, $routeParams, $filter) {
     $log.log('Tag', $routeParams);
+    $rootScope.title = $routeParams.tag;
     $scope.bookmarks = $filter('filter')($scope.db.bookmarks, function(value, idx, arr) {
         var filtered_tags = (value.tags || []).filter(function(tag) {
             return tag === $routeParams.tag;
