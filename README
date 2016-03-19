@@ -1,4 +1,8 @@
 
+
+* Allow the user to have several sets of Bookmarks?
+  Maybe with different configurations.
+
 * When adding a link fetch the title of the page and offer it as a title
 * Check for duplicate URLs
 * Add a comment to the URL
