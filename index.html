@@ -27,12 +27,16 @@
 <script type="text/ng-template" id="switch.html">
     <select ng-options="app as app for (app, data) in anystore.apps" ng-model="new_current_app"></select>
     <button class="btn btn-success" ng-click="switch_to()" ng-disabled="!new_current_app">Select Application</button>
-    <button class="btn" ng-click="cancel_switching()" ng-show="current_app">Cancel</button>
+    <button class="btn" ng-click="cancel()" ng-show="current_app">Cancel</button>
+
+    <input ng-model="new_app">
+    <button class="btn btn-success" ng-click="add_new_app()" ng-disabled="!new_app">Create new Application</button>
 </script>
 
 <script type="text/ng-template" id="main.html">
       <button class="btn btn-lg" ng-click="open_editor()">Add</button>
       <button class="btn btn-lg" ng-click="export_data()">Export</button>
+      <a href="#/switch">Switch application</a>
       <ng-include src="'list.html'"></ng-include>
 </script>
 

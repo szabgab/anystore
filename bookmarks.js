@@ -23,36 +23,47 @@ angular.module('BookmarksApp', ['ngRoute'])
            redirectTo: '/'
        });
 }])
-.controller('BookmarksController', ['$scope', '$rootScope', '$log', '$location', function($scope, $rootScope, $log, $location) {
-
-    var load_anystore = function() {
-        var data = localStorage.getItem('anystore');
-        if (data === null) {
-            $scope.anystore = {
-                apps: {
-                        bookmarks: {
-                            store: 'bookmarks'
-                        }
-                }
-        	};
-        } else {
-            $scope.anystore = JSON.parse(data);
+.service('anystore', function(){
+    var anystore;
+    return {
+        load: function() {
+            var data = localStorage.getItem('anystore');
+            if (data === null) {
+                anystore = {
+                    apps: {
+                            bookmarks: {
+                                store: 'bookmarks'
+                            }
+                    }
+                };
+            } else {
+                anystore = JSON.parse(data);
+            }
+            return anystore;
+        },
+        save: function() {
+            localStorage.setItem('anystore', JSON.stringify(anystore));
+        },
+        get: function() {
+            return anystore;
+        },
+        set: function(data) {
+            anystore = data;
+        },
+        set_app: function(name) {
+            anystore.current_app = name;
+        },
+        add_new_app: function(name) {
+            anystore.apps[name] = {
+                store: name
+            };
         }
-        $scope.current_app = $scope.anystore.current_app;
-    }
-
-    $scope.save_anystore = function() {
-        //$log.log('save_anystore current_scope:', $scope.anystore);
-        $scope.current_app = $rootScope.current_app; // hmm, why do we need this?
-        //$log.log('current_app:', $scope.current_app, $rootScope.current_app);
-        $scope.anystore.current_app = $scope.current_app;
-        localStorage.setItem('anystore', JSON.stringify($scope.anystore));
-    }
-
-
+    };
+})
+.controller('BookmarksController', ['$scope', '$rootScope', '$log', '$location', 'anystore', function($scope, $rootScope, $log, $location, anystore) {
     $scope.load_data = function() {
-        $log.log('current_app', $scope.current_app);
-        var data = localStorage.getItem($scope.anystore.apps[$scope.current_app].store);
+        $log.log('current_app', anystore.get().current_app);
+        var data = localStorage.getItem($scope.anystore.apps[anystore.get().current_app].store);
         if (data === null) {
             $scope.db = {
         		counter: 0,
@@ -121,35 +132,47 @@ angular.module('BookmarksApp', ['ngRoute'])
         hiddenElement.click();
     };
     var save_in_db = function() {
-        localStorage.setItem($scope.anystore.apps[$scope.current_app].store, JSON.stringify($scope.db));
+        localStorage.setItem($scope.anystore.apps[anystore.get().current_app].store, JSON.stringify($scope.db));
     };
 
-    load_anystore();
-    $log.log('anystore:', $scope.anystore);
-    if ($scope.current_app === undefined) {
-        $location.path('/switch');
 
+    $scope.anystore = anystore.load();
+    $log.log('anystore:', $scope.anystore);
+    if (anystore.get().current_app === undefined) {
+        $location.path('/switch');
     } else {
         $scope.load_data();
     }
 
 }])
-.controller('SwitchController', ['$scope', '$rootScope', '$location', '$log', function($scope, $rootScope, $location, $log) {
+.controller('SwitchController', ['$scope', '$rootScope', '$location', '$log', 'anystore', function($scope, $rootScope, $location, $log, anystore) {
     $rootScope.title = "Select application";
-    $scope.new_current_app = $rootScope.current_app;
+    $scope.new_current_app = anystore.get().current_app;
+
+    $scope.add_new_app = function() {
+        if (! $scope.new_app.match(/^\w+$/)) {
+            alert('Invalid name');
+            return;
+        }
+        if (anystore.get()[$scope.new_app]) {
+            alert('This app already exists');
+            return;
+        }
+        $log.log("Creating new app: ", $scope.new_app);
+        anystore.add_new_app($scope.new_app);
+        $scope.new_current_app = $scope.new_app;
+        $scope.switch_to();
+    };
 
     $scope.switch_to = function() {
-        // $log.log('current_app set to', $rootScope.current_app);
-        // $log.log('current_app set to', $scope.current_app);
-        // $log.log('new_current_app set to', $scope.new_current_app);
-        $rootScope.current_app = $scope.new_current_app;
-        // $log.log('current_app set to', $rootScope.current_app);
-        // $log.log('current_app set to', $scope.current_app);
-        // $log.log('new_current_app set to', $scope.new_current_app);
-        $scope.save_anystore();
+        anystore.set_app($scope.new_current_app);
+        anystore.save();
         $scope.load_data();
         $location.path('/');
     };
+    $scope.cancel  = function() {
+        $location.path('/');
+    }
 }])
 .controller('MainController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $rootScope.title = "Bookmarks";
