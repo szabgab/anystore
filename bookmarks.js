@@ -106,7 +106,11 @@ angular.module('BookmarksApp', ['ngRoute'])
 		$log.debug('save');
 		$log.debug($scope.editor);
 
-        $scope.editor.tags = $scope.editor.tags_string.split(/\s*,\s*/);
+        if ($scope.editor.tags_string === undefined) {
+            $scope.editor.tags = [];
+        } else {
+            $scope.editor.tags = $scope.editor.tags_string.split(/\s*,\s*/);    
+        }
         delete $scope.editor.tags_string;
         if ($scope.editor.hasOwnProperty('idx') ) {
             var idx = $scope.editor.idx;
